@@ -1,7 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Business Dictionary</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Business Search Dictionary</title>
+
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -10,21 +15,40 @@
     <div class="container">
 
         <h1>Business Search Dictionary</h1>
-        <p>Use the dictionary to study your business terms!</p>
+
+        <p>Search for a business term to find its definition!</p>
 
         <div class="buttons">
-            <button onclick="showSearch()">Search Mode</button>
-            <button onclick="showQuiz()">Quiz Mode</button>
+
+            <button onclick="showSearch()">
+                Search Mode
+            </button>
+
+            <button onclick="showQuiz()">
+                Quiz Mode
+            </button>
+
+            <button onclick="viewAllTerms()">
+                View All Terms
+            </button>
+
         </div>
 
+
         <!-- SEARCH MODE -->
+
         <div id="searchMode">
 
-            <input type="text" id="searchBox"
-                   placeholder="Type a business term..."
-                   onkeydown="if(event.key === 'Enter') searchDictionary()">
+            <input
+                type="text"
+                id="searchBox"
+                placeholder="Type a business term..."
+                onkeydown="if(event.key === 'Enter') searchDictionary()"
+            >
 
-            <button onclick="searchDictionary()">Search</button>
+            <button onclick="searchDictionary()">
+                Search
+            </button>
 
             <div id="result"></div>
 
@@ -32,21 +56,24 @@
 
 
         <!-- QUIZ MODE -->
+
         <div id="quizMode">
 
-            <h2>Business Quiz</h2>
-
-            <p id="question"></p>
+            <div id="question">
+                Click "Start Quiz" to begin!
+            </div>
 
             <div id="answers"></div>
 
-            <p id="quizResult"></p>
+            <div id="quizResult"></div>
+
+            <div id="score">
+                Score: 0 / 0
+            </div>
 
             <button id="nextButton" onclick="nextQuestion()">
-                Next Question
+                Start Quiz
             </button>
-
-            <p id="score"></p>
 
         </div>
 
@@ -55,4 +82,5 @@
     <script src="script.js"></script>
 
 </body>
+
 </html>

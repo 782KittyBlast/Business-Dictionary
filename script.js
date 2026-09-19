@@ -31,12 +31,12 @@ const dictionary = {
     },
 
     "intangible": {
-        definition: "Services based on physical experiences or ideas that cannot be touched.",
-        example: "A haircut or an online service."
+        definition: "Things that cannot be physically touched, such as services or experiences.",
+        example: "A haircut or a concert."
     },
 
     "producers": {
-        definition: "Providers of goods and services.",
+        definition: "The providers of goods and services.",
         example: "A company that makes and sells phones."
     },
 
@@ -45,13 +45,8 @@ const dictionary = {
         example: "A person buying a phone."
     },
 
-    "multipurpose": {
-        definition: "Something that has more than one purpose.",
-        example: "A smartphone can be used for calling, taking pictures, and browsing the internet."
-    },
-
     "competition": {
-        definition: "When companies compete to buy or sell goods and services.",
+        definition: "When companies compete with each other to sell goods or services to consumers.",
         example: "Coca-Cola and Pepsi."
     },
 
@@ -61,12 +56,12 @@ const dictionary = {
     },
 
     "needs": {
-        definition: "Necessities.",
+        definition: "Things that are necessary for people to live and function.",
         example: "Food, water, and shelter."
     },
 
     "wants": {
-        definition: "Things that are desired but are not necessary.",
+        definition: "Things that people desire but do not necessarily need.",
         example: "Video games or expensive clothing."
     },
 
@@ -76,12 +71,12 @@ const dictionary = {
     },
 
     "expenses": {
-        definition: "Expenditures involved in running a business.",
+        definition: "The costs involved in running a business.",
         example: "Rent, wages, and electricity."
     },
 
     "costs": {
-        definition: "The amount of money required for each stage of production.",
+        definition: "The amount of money required to produce or provide a good or service.",
         example: "The cost of raw materials."
     },
 
@@ -96,7 +91,7 @@ const dictionary = {
     },
 
     "mixed economy": {
-        definition: "An economy that combines a market economy and a command economy.",
+        definition: "An economy that combines features of a market economy and a command economy.",
         example: "Canada."
     },
 
@@ -106,12 +101,12 @@ const dictionary = {
     },
 
     "natural resources": {
-        definition: "Resources provided by nature.",
+        definition: "Resources provided by nature that are used to produce goods and services.",
         example: "Water, trees, minerals, and oil."
     },
 
     "human resources": {
-        definition: "People and labour used to produce goods and services.",
+        definition: "The people and labour used to produce goods and services.",
         example: "Teachers, construction workers, and doctors."
     },
 
@@ -121,12 +116,12 @@ const dictionary = {
     },
 
     "entrepreneurship": {
-        definition: "The ability to organize resources and take risks to start a business.",
+        definition: "The process of organizing resources and taking risks to start and operate a business.",
         example: "Starting and managing a new restaurant."
     },
 
     "sole proprietorship": {
-        definition: "A business owned and operated by one person, who has unlimited liability.",
+        definition: "A business owned and operated by one person who has unlimited liability.",
         example: "A person who owns their own hair salon."
     },
 
@@ -146,7 +141,7 @@ const dictionary = {
     },
 
     "board of directors": {
-        definition: "A group of people elected by shareholders to oversee the corporation.",
+        definition: "A group of people elected by shareholders to oversee a corporation.",
         example: "The board makes major decisions for a corporation."
     },
 
@@ -191,7 +186,7 @@ const dictionary = {
     },
 
     "service industries": {
-        definition: "Industries that provide services.",
+        definition: "Industries that provide services to consumers or other businesses.",
         example: "Banking, education, and healthcare."
     },
 
@@ -224,35 +219,79 @@ const dictionary = {
 
 function searchDictionary() {
 
-    let searchTerm = document.getElementById("searchBox").value.toLowerCase().trim();
+    let searchTerm =
+        document.getElementById("searchBox").value
+        .toLowerCase()
+        .trim();
 
-    let result = document.getElementById("result");
+    let result =
+        document.getElementById("result");
 
     if (dictionary[searchTerm]) {
 
         result.innerHTML =
             "<h2>" + searchTerm + "</h2>" +
             "<p><strong>Definition:</strong> " +
-            dictionary[searchTerm].definition + "</p>" +
+            dictionary[searchTerm].definition +
+            "</p>" +
             "<p><strong>Example:</strong> " +
-            dictionary[searchTerm].example + "</p>";
+            dictionary[searchTerm].example +
+            "</p>";
 
     } else {
 
         result.innerHTML =
-            "<p>Sorry, I couldn't find that term.</p>";
+            "<p>Sorry, I couldn't find that term.</p>" +
+            "<p>Try clicking <strong>View All Terms</strong> to see the available terms.</p>";
 
     }
 }
 
 
 // ==========================================
-// SWITCH BETWEEN MODES
+// VIEW ALL TERMS
+// ==========================================
+
+function viewAllTerms() {
+
+    let result =
+        document.getElementById("result");
+
+    let output =
+        "<h2>All Business Terms</h2>";
+
+    let terms =
+        Object.keys(dictionary);
+
+    terms.sort();
+
+    for (let i = 0; i < terms.length; i++) {
+
+        output +=
+            "<div class='term'>" +
+            "<h3>" + terms[i] + "</h3>" +
+            "<p><strong>Definition:</strong> " +
+            dictionary[terms[i]].definition +
+            "</p>" +
+            "<p><strong>Example:</strong> " +
+            dictionary[terms[i]].example +
+            "</p>" +
+            "</div>";
+
+    }
+
+    result.innerHTML = output;
+}
+
+
+// ==========================================
+// SWITCH MODES
 // ==========================================
 
 function showSearch() {
 
     document.getElementById("searchMode").style.display = "block";
+
     document.getElementById("quizMode").style.display = "none";
 
 }
@@ -261,6 +300,7 @@ function showSearch() {
 function showQuiz() {
 
     document.getElementById("searchMode").style.display = "none";
+
     document.getElementById("quizMode").style.display = "block";
 
     startQuiz();
@@ -275,15 +315,24 @@ function showQuiz() {
 let quizTerms = Object.keys(dictionary);
 
 let currentTerm;
+
 let score = 0;
+
 let questionNumber = 0;
+
 let usedTerms = [];
 
+
+// ==========================================
+// START QUIZ
+// ==========================================
 
 function startQuiz() {
 
     score = 0;
+
     questionNumber = 0;
+
     usedTerms = [];
 
     document.getElementById("quizResult").innerHTML = "";
@@ -296,62 +345,92 @@ function startQuiz() {
 }
 
 
+// ==========================================
+// NEXT QUESTION
+// ==========================================
+
 function nextQuestion() {
 
-    // Finish after 10 questions
     if (questionNumber >= 10) {
 
         showFinalScore();
+
         return;
 
     }
 
+
     document.getElementById("quizResult").innerHTML = "";
+
 
     questionNumber++;
 
-    // Find terms that have NOT been used yet
-    let availableTerms = quizTerms.filter(function(term) {
 
-        return !usedTerms.includes(term);
+    let availableTerms =
+        quizTerms.filter(function(term) {
 
-    });
+            return !usedTerms.includes(term);
 
-    // Pick a random unused term
+        });
+
+
     let randomNumber =
-        Math.floor(Math.random() * availableTerms.length);
+        Math.floor(
+            Math.random() * availableTerms.length
+        );
 
-    currentTerm = availableTerms[randomNumber];
 
-    // Remember that this term was used
+    currentTerm =
+        availableTerms[randomNumber];
+
+
     usedTerms.push(currentTerm);
 
+
     document.getElementById("question").innerHTML =
-        "Question " + questionNumber + " of 10<br><br>" +
+
+        "Question " +
+        questionNumber +
+        " of 10<br><br>" +
+
         "Which term matches this definition?<br><br>" +
-        "<strong>" + dictionary[currentTerm].definition + "</strong>";
+
+        "<strong>" +
+        dictionary[currentTerm].definition +
+        "</strong>";
+
 
     createAnswers();
 
+
     document.getElementById("score").innerHTML =
-        "Score: " + score + " / " + (questionNumber - 1);
+
+        "Score: " +
+        score +
+        " / " +
+        (questionNumber - 1);
 
 }
 
 
 // ==========================================
-// CREATE ANSWER CHOICES
+// CREATE ANSWERS
 // ==========================================
 
 function createAnswers() {
 
     let answers = [currentTerm];
 
-    // Add three random incorrect answers
+
     while (answers.length < 4) {
 
         let randomAnswer =
-            quizTerms[Math.floor(Math.random() * quizTerms.length)];
+            quizTerms[
+                Math.floor(
+                    Math.random() * quizTerms.length
+                )
+            ];
+
 
         if (!answers.includes(randomAnswer)) {
 
@@ -361,26 +440,39 @@ function createAnswers() {
 
     }
 
-    // Shuffle the answers
-    answers.sort(() => Math.random() - 0.5);
 
-    let answerArea = document.getElementById("answers");
+    answers.sort(
+        () => Math.random() - 0.5
+    );
+
+
+    let answerArea =
+        document.getElementById("answers");
+
 
     answerArea.innerHTML = "";
 
+
     for (let i = 0; i < answers.length; i++) {
 
-        let button = document.createElement("button");
+        let button =
+            document.createElement("button");
 
-        button.innerHTML = answers[i];
 
-        button.className = "answerButton";
+        button.innerHTML =
+            answers[i];
+
+
+        button.className =
+            "answerButton";
+
 
         button.onclick = function() {
 
             checkAnswer(answers[i]);
 
         };
+
 
         answerArea.appendChild(button);
 
@@ -405,16 +497,23 @@ function checkAnswer(answer) {
     } else {
 
         document.getElementById("quizResult").innerHTML =
-            "Not quite! The correct answer was: " + currentTerm;
+            "Not quite! The correct answer was: " +
+            currentTerm;
 
     }
 
-    document.getElementById("score").innerHTML =
-        "Score: " + score + " / " + questionNumber;
 
-    // Disable answer buttons
+    document.getElementById("score").innerHTML =
+
+        "Score: " +
+        score +
+        " / " +
+        questionNumber;
+
+
     let buttons =
         document.getElementsByClassName("answerButton");
+
 
     for (let i = 0; i < buttons.length; i++) {
 
@@ -431,18 +530,30 @@ function checkAnswer(answer) {
 
 function showFinalScore() {
 
-    let percentage = (score / 10) * 100;
+    let percentage =
+        (score / 10) * 100;
+
 
     document.getElementById("question").innerHTML =
         "Quiz Complete!";
 
-    document.getElementById("answers").innerHTML = "";
+
+    document.getElementById("answers").innerHTML =
+        "";
+
 
     document.getElementById("quizResult").innerHTML =
-        "You scored " + score + " / 10 (" + percentage + "%)";
+
+        "You scored " +
+        score +
+        " / 10 (" +
+        percentage +
+        "%)";
+
 
     document.getElementById("score").innerHTML =
         "Try again to beat your score!";
+
 
     document.getElementById("nextButton").innerHTML =
         "Try Again";
