@@ -227,3 +227,21 @@ input:focus {
 .term p {
     margin: 6px 0;
 }
+
+/* ==========================================
+   ADD A TERM
+   ========================================== */
+
+#addTermMode {
+    display: none;
+}
+
+#addTermMode input {
+    width: 60%;
+    margin: 5px;
+}
+
+#addTermResult {
+    margin-top: 15px;
+    font-weight: bold;
+}

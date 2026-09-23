@@ -1,3 +1,16 @@
+// ==========================================
+// SUPABASE CONNECTION
+// ==========================================
+
+const SUPABASE_URL = "https://ckvjjpzlsvszwpzkfsvc.supabase.co";
+
+const SUPABASE_KEY = "sb_publishable_Z8vQ2TgHDg4eo9g8rJXDLg_9XpiZJDf";
+
+const supabase = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
 const dictionary = {
 
     "business": {
@@ -208,10 +221,50 @@ const dictionary = {
     "limited liability": {
         definition: "The owner's personal responsibility for business debts is limited.",
         example: "Shareholders of a corporation generally have limited liability."
+    },
+
+    "distribution": {
+        definition: "How goods and services are delivered to consumers.",
+        example: "Shipping and retail."
+    },
+
+    "demand": {
+        definition: "The quantity of a good or service that consumers are willing and able to buy at a particular price.",
+        example: "If consumers want to buy more ice cream, the demand for ice cream increases."
+    },
+
+    "law of demand": {
+        definition: "If prices go down demand goes up, and if prices go up demand goes down.",
+        example: "If the price of ice cream goes up, people will buy less ice cream."
+    },
+
+    
+};
+async function loadTerms() {
+
+    const { data, error } = await supabase
+        .from("terms")
+        .select("term, definition, example");
+
+    if (error) {
+        console.error("SUPABASE LOAD ERROR:", error);
+        return;
     }
 
-};
+    data.forEach(item => {
 
+        dictionary[item.term] = {
+            definition: item.definition,
+            example: item.example
+        };
+
+    });
+
+    quizTerms = Object.keys(dictionary);
+
+    console.log("Terms loaded from Supabase!");
+
+}
 
 // ==========================================
 // SEARCH MODE
@@ -284,15 +337,116 @@ function viewAllTerms() {
 }
 
 
+
+// ==========================================
+// ADD A TERM
+// ==========================================
+
+async function addTerm() {
+
+    let term =
+        document.getElementById("newTerm").value
+        .toLowerCase()
+        .trim();
+
+    let definition =
+        document.getElementById("newDefinition").value
+        .trim();
+
+    let example =
+        document.getElementById("newExample").value
+        .trim();
+
+    let result =
+        document.getElementById("addTermResult");
+
+
+    if (term === "" || definition === "" || example === "") {
+
+        result.innerHTML =
+            "<p>Please fill in all three boxes.</p>";
+
+        return;
+
+    }
+
+
+    if (dictionary[term]) {
+
+        result.innerHTML =
+            "<p>That term is already in the dictionary.</p>";
+
+        return;
+
+    }
+
+
+    const { error } = await supabase
+        .from("terms")
+        .insert([
+            {
+                term: term,
+                definition: definition,
+                example: example
+            }
+        ]);
+
+
+    if (error) {
+
+    console.error("SUPABASE ERROR:", error);
+
+    result.innerHTML =
+        "<p>There was a problem adding the term.</p>" +
+        "<p>" + error.message + "</p>";
+
+    return;
+
+}
+
+
+    dictionary[term] = {
+
+        definition: definition,
+
+        example: example
+
+    };
+
+
+    quizTerms = Object.keys(dictionary);
+
+
+    result.innerHTML =
+        "<p>Term added successfully!</p>";
+
+
+    document.getElementById("newTerm").value = "";
+
+    document.getElementById("newDefinition").value = "";
+
+    document.getElementById("newExample").value = "";
+
+}
 // ==========================================
 // SWITCH MODES
 // ==========================================
+function showAddTerm() {
 
+    document.getElementById("searchMode").style.display = "none";
+
+    document.getElementById("quizMode").style.display = "none";
+
+    document.getElementById("addTermMode").style.display = "block";
+
+}
 function showSearch() {
 
     document.getElementById("searchMode").style.display = "block";
 
     document.getElementById("quizMode").style.display = "none";
+
+    document.getElementById("addTermMode").style.display = "none";
 
 }
 
@@ -302,6 +456,8 @@ function showQuiz() {
     document.getElementById("searchMode").style.display = "none";
 
     document.getElementById("quizMode").style.display = "block";
+
+    document.getElementById("addTermMode").style.display = "none";
 
     startQuiz();
 
@@ -559,3 +715,4 @@ function showFinalScore() {
         "Try Again";
 
 }
+loadTerms();

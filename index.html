@@ -1,86 +1,136 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Business Search Dictionary</title>
+```
+<title>Business Search Dictionary</title>
 
-    <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css">
+```
+
 </head>
 
 <body>
 
-    <div class="container">
+```
+<div class="container">
 
-        <h1>Business Search Dictionary</h1>
+    <h1>Business Search Dictionary</h1>
 
-        <p>Search for a business term to find its definition!</p>
+    <p>Search for a business term to find its definition!</p>
 
-        <div class="buttons">
+    <div class="buttons">
 
-            <button onclick="showSearch()">
-                Search Mode
-            </button>
+        <button onclick="showSearch()">
+            Search Mode
+        </button>
 
-            <button onclick="showQuiz()">
-                Quiz Mode
-            </button>
+        <button onclick="showQuiz()">
+            Quiz Mode
+        </button>
 
-            <button onclick="viewAllTerms()">
-                View All Terms
-            </button>
+        <button onclick="viewAllTerms()">
+            View All Terms
+        </button>
 
-        </div>
-
-
-        <!-- SEARCH MODE -->
-
-        <div id="searchMode">
-
-            <input
-                type="text"
-                id="searchBox"
-                placeholder="Type a business term..."
-                onkeydown="if(event.key === 'Enter') searchDictionary()"
-            >
-
-            <button onclick="searchDictionary()">
-                Search
-            </button>
-
-            <div id="result"></div>
-
-        </div>
-
-
-        <!-- QUIZ MODE -->
-
-        <div id="quizMode">
-
-            <div id="question">
-                Click "Start Quiz" to begin!
-            </div>
-
-            <div id="answers"></div>
-
-            <div id="quizResult"></div>
-
-            <div id="score">
-                Score: 0 / 0
-            </div>
-
-            <button id="nextButton" onclick="nextQuestion()">
-                Start Quiz
-            </button>
-
-        </div>
+        <button onclick="showAddTerm()">
+            Add a Term
+        </button>
 
     </div>
 
-    <script src="script.js"></script>
 
+    <!-- SEARCH MODE -->
+
+    <div id="searchMode">
+
+        <input
+            type="text"
+            id="searchBox"
+            placeholder="Type a business term..."
+            onkeydown="if(event.key === 'Enter') searchDictionary()"
+        >
+
+        <button onclick="searchDictionary()">
+            Search
+        </button>
+
+        <div id="result"></div>
+
+    </div>
+
+
+    <!-- ADD A TERM MODE -->
+
+    <div id="addTermMode">
+
+        <h2>Add a Business Term</h2>
+
+        <p>Help build our class dictionary!</p>
+
+        <input
+            type="text"
+            id="newTerm"
+            placeholder="Business term..."
+        >
+
+        <br><br>
+
+        <input
+            type="text"
+            id="newDefinition"
+            placeholder="Definition..."
+        >
+
+        <br><br>
+
+        <input
+            type="text"
+            id="newExample"
+            placeholder="Example..."
+        >
+
+        <br><br>
+
+        <button onclick="addTerm()">
+            Add Term
+        </button>
+
+        <div id="addTermResult"></div>
+
+    </div>
+
+
+    <!-- QUIZ MODE -->
+
+    <div id="quizMode">
+
+        <div id="question">
+            Click "Start Quiz" to begin!
+        </div>
+
+        <div id="answers"></div>
+
+        <div id="quizResult"></div>
+
+        <div id="score">
+            Score: 0 / 0
+        </div>
+
+        <button id="nextButton" onclick="nextQuestion()">
+            Start Quiz
+        </button>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4/dist/umd/supabase.js"></script>
+<script src="script.js"></script>
 </body>
 
 </html>
